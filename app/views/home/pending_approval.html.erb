@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pending Approval</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Reset body margin to ensure full centering */
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body class="h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100">
+
+    <div class="bg-white rounded-2xl px-16 py-14 shadow-2xl max-w-xl w-full text-center mt-10">
+      <!-- Image -->
+      <div class="mb-6 animate-bounce">
+        <img src="<%= asset_path('pending-approval-account.svg') %>" alt="Pending Approval" class="mx-auto w-40 h-40" />
+      </div>
+
+      <!-- Text -->
+      <div class="mb-6 space-y-2">
+        <span class="inline-block bg-yellow-100 text-yellow-800 font-semibold text-sm px-4 py-1 rounded-full shadow-sm">
+          ⏳ Account Pending
+        </span>
+        <h1 class="text-2xl font-bold text-blue-900">Your account is under review</h1>
+        <p class="text-gray-600">Once approved, please log in again to start trading!</p>
+      </div>
+
+      <!-- Button -->
+      <%= button_to "Logout and Go to Home", destroy_user_session_path,
+    method: :delete,
+    form: { data: { turbo: true } },
+    class: "inline-block bg-blue-900 text-white px-5 py-2.5 rounded-lg shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all" %>
+
+    </div>
+  </body>
+</html>

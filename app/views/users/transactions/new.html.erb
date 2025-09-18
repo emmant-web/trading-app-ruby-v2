@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy & Sell Stocks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="m-0 h-screen w-screen overflow-hidden bg-white">
+    <div class="flex h-screen w-full">
+      <div>
+        <%= render 'users/shared/sidebar' %>
+      </div>
+
+      <div class="flex-1 p-10 overflow-auto ml-64">
+
+        <div class="max-w-xl mx-auto mb-6 bg-yellow-50 border border-yellow-200 rounded-2xl p-4 shadow-sm">
+          <h2 class="text-lg font-semibold text-yellow-800 mb-2">📈 Top 5 Stocks</h2>
+          <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+            <li><strong>AAPL</strong> – Apple Inc.</li>
+            <li><strong>MSFT</strong> – Microsoft Corporation</li>
+            <li><strong>NVDA</strong> – NVIDIA Corporation</li>
+            <li><strong>AMZN</strong> – Amazon.com Inc.</li>
+            <li><strong>TSLA</strong> – Tesla Inc.</li>
+          </ul>
+        </div>
+
+        <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-md p-6 border border-gray-200">
+          <%= form_with url: new_users_transaction_path, method: :get, local: true do |form| %>
+            <div class="mb-4">
+              <%= form.label :symbol, "Search Stock Symbol", class: "block text-sm font-medium text-gray-700" %>
+              <div class="flex gap-2 mt-1">
+                <%= form.text_field :symbol, class: "flex-1 border border-gray-300 rounded px-3 py-2 focus:ring focus:ring-blue-200" %>
+                <%= form.submit "Search", class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer" %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="text-sm text-gray-600 mb-6">
+            <strong>Available Balance:</strong>
+            $<%= number_with_precision(current_user.balance, precision: 2) %>
+          </div>
+
+          <% if @symbol && @stock_price %>
+            <div class="bg-blue-100 rounded-lg p-4 mb-4">
+              <p class="text-gray-700 mb-1">
+                <strong>Symbol:</strong> <%= @symbol %>
+              </p>
+              <p class="text-gray-700">
+                <strong>Stock Price:</strong> $<%= number_with_precision(@stock_price.to_f, precision: 2) %>
+              </p>
+            </div>
+
+            <%= form_with url: users_transactions_path, method: :post, local: true do |form| %>
+              <%= hidden_field_tag :symbol, @symbol %>
+              <%= hidden_field_tag :price, @stock_price %>
+
+              <div class="mb-4">
+                <%= form.label :shares, "Number of Shares", class: "block text-sm font-medium text-gray-700" %>
+                <%= form.number_field :shares, min: 1, class: "w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:ring focus:ring-blue-200" %>
+              </div>
+
+              <div class="flex justify-between gap-4">
+                <%= form.submit "Buy", name: "commit", value: "Buy", class: "w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition" %>
+                <%= form.submit "Sell", name: "commit", value: "Sell", class: "w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition" %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

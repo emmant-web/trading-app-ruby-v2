@@ -1,0 +1,79 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Password</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .delay-1 {
+      animation-delay: 0.9s;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<!-- Outer Container -->
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-indigo-100 px-4 fade-in delay-1">
+
+  <!-- Two Column Layout -->
+  <div class="flex w-full max-w-5xl bg-white shadow-lg rounded-2xl overflow-hidden ">
+
+    <!-- Left Graphic Column -->
+    <div class="hidden md:flex flex-col w-1/2 bg-blue-800 p-8 min-h-[25rem]">
+      
+      <!-- Logo at Top -->
+      <div class="mb-8 fade-in delay-1">
+        <%= image_tag "tradenova-logo-white", alt: "TradeNova Logo", class: "w-32 h-auto" %>
+      </div>
+      
+      <!-- Graphic Centered -->
+      <div class="flex-grow flex items-center justify-center fade-in delay-1">
+        <%= image_tag "forgot-password-graphic", alt: "Stock Graphic", class: "w-3/4 h-auto" %>
+      </div>
+    </div>
+
+    <!-- Right Forgot Password Form -->
+    <div class="w-full md:w-1/2 p-8 fade-in delay-1 min-h-[25rem] flex flex-col justify-center">
+      <h2 class="text-3xl font-bold text-center text-blue-900 mb-8">Forgot your password?</h2>
+
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="space-y-6 mb-4">
+
+          <!-- Email -->
+          <div class="space-y-2">
+            <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#111111]" %>
+          </div>
+
+          <!-- Submit -->
+          <div>
+            <%= f.submit "Send me reset password instructions", class: "w-full rounded-lg bg-blue-900 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-[#111111] focus:ring-offset-2 transition cursor-pointer" %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Links -->
+      <div class="text-center text-sm text-gray-600">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
+</div>

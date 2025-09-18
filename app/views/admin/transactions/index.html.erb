@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Transactions</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="m-0 h-screen w-screen overflow-hidden">
+  <div class="flex h-screen w-full">
+    <div>
+      <%= render 'users/shared/adminSB' %>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-6 ml-64 bg-white">
+      <div class="max-w-7xl w-full mx-auto p-6 bg-white rounded-xl shadow-md">
+        <h1 class="text-2xl font-semibold mb-4 text-gray-800">All Transactions</h1>
+
+        <div class="overflow-x-auto">
+          <%= search_form_for @q, url: admin_transactions_path, method: :get, class: "mb-4 flex gap-2" do |f| %>
+            <%= f.search_field :user_email_or_symbol_cont,
+              placeholder: "Search by user email or symbol",
+              class: "px-4 py-2 border border-gray-300 rounded-md w-64"
+            %>
+
+            <%= f.select :action_eq,
+              options_for_select([["Any Action", ""], ["Buy", "buy"], ["Sell", "sell"]], params.dig(:q, :action_eq)),
+              {},
+              class: "px-4 py-2 border border-gray-300 rounded-md"
+            %>
+
+            <%= f.submit "Search",
+              class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            %>
+
+            <%= link_to "Clear", admin_transactions_path, class: "px-4 py-2 bg-rose-500 text-white rounded-md hover:bg-rose-600 transition-colors" %>
+          <% end %>
+          <table class="min-w-full border text-sm text-gray-700">
+            <thead>
+              <tr class="bg-gray-100 text-left text-xs uppercase tracking-wider text-gray-600">
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">User</th>
+                <th class="px-4 py-3">Action</th>
+                <th class="px-4 py-3">Symbol</th>
+                <th class="px-4 py-3">Quantity</th>
+                <th class="px-4 py-3">Price</th>
+                <th class="px-4 py-3">Total</th>
+                <th class="px-4 py-3">Date</th>
+                <th class="px-4 py-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @transactions.each do |transaction| %>
+                <tr class="border-b hover:bg-gray-50">
+                  <td class="px-4 py-2 font-medium text-gray-800"><%= transaction.id %></td>
+                  <td class="px-4 py-2"><%= transaction.user.email %></td>
+                  <td class="px-4 py-2">
+                    <span class="<%= transaction.action == 'buy' ? 'text-green-600' : 'text-red-600' %> font-semibold">
+                      <%= transaction.action.capitalize %>
+                    </span>
+                  </td>
+                  <td class="px-4 py-2 uppercase"><%= transaction.symbol %></td>
+                  <td class="px-4 py-2"><%= transaction.quantity %></td>
+                  <td class="px-4 py-2">$<%= number_with_precision(transaction.stock_price, precision: 2) %></td>
+                  <td class="px-4 py-2">$<%= number_with_precision(transaction.total_price, precision: 2) %></td>
+                  <td class="px-4 py-2"><%= transaction.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+                  <td class="px-4 py-2">
+                    <%= link_to "Show",
+                      admin_transaction_path(transaction),
+                      class: "inline-block px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-xs" %>
+                    <%# Uncomment if you ever allow edit/delete %>
+                    <%# | <%= link_to "Edit", edit_admin_transaction_path(transaction), class: "inline-block px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors text-xs" %>
+                    <%# | <%= link_to "Delete", admin_transaction_path(transaction), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "inline-block px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 transition-colors text-xs" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="mt-6 flex justify-center">
+            <%= paginate @transactions, params: { q: params[:q]&.to_unsafe_h } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

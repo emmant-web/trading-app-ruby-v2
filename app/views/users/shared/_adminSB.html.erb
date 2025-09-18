@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desktop Sidebar</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="bg-[#fafafa] w-64 px-6 py-4 flex flex-col items-stretch gap-6 h-screen fixed">
+
+    <!-- Logo -->
+    <div class="flex items-center justify-between w-full">
+      <div class="flex items-center gap-2 text-2xl  tracking-tight ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up-icon lucide-trending-up w-[24px] h-[24px]"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></svg>
+        <h2 class="inline tracking-tight text-[#222222] font-semibold">TradeNova</h2>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex flex-col gap-2 w-full flex-1">
+      <span class="uppercase text-xs font-medium text-zinc-500 mt-4 tracking-wide">Admin</span>
+      
+      <a href="<%= new_admin_user_path %>" class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm font-medium hover:bg-gray-300 text-[#222222]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="#222222" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus">
+            <path d="M16 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M7 21v-2a4 4 0 0 1 3-3.87"/>
+            <circle cx="12" cy="7" r="4"/>
+            <line x1="20" y1="8" x2="20" y2="14"/>
+            <line x1="23" y1="11" x2="17" y2="11"/>
+        </svg>
+        New User
+      </a>
+
+      <a href="<%= admin_users_path %>" class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm font-medium hover:bg-gray-300 text-[#222222]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="#222222" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users">
+            <path d="M17 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M7 21v-2a4 4 0 0 1 3-3.87"/>
+            <circle cx="12" cy="7" r="4"/>
+            <path d="M4 7a4 4 0 0 1 8 0"/>
+            <path d="M20 7a4 4 0 0 0-8 0"/>
+        </svg>
+        All Users
+      </a>
+
+      <a href="<%= pending_admin_users_path %>" class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm font-medium hover:bg-gray-300 text-[#222222]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="#222222" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-clock">
+            <circle cx="12" cy="7" r="4"/>
+            <path d="M5.5 21v-2a4.5 4.5 0 0 1 9 0v2"/>
+            <circle cx="18" cy="16" r="4"/>
+            <path d="M18 14v2l1 1"/>
+        </svg>
+        Pending Approvals
+      </a>
+
+      <a href="<%= admin_transactions_path %>" class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm font-medium hover:bg-gray-300 text-[#222222]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="#222222" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <line x1="10" y1="9" x2="8" y2="9"/>
+        </svg>
+        All Transactions
+      </a>
+    </nav>
+
+    <!-- BOTTOM SECTION -->
+    <div id="user-info" class="flex justify-between gap-3 mt-auto">
+        <div class="flex justify-center items-center gap-2">
+            <div class="rounded-lg h-8 w-8 bg-blue-600 flex justify-center items-center hover:bg-blue-700">
+                <svg class="w-5 h-5 text-gray-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M18 20a6 6 0 0 0-12 0" />
+                    <circle cx="12" cy="10" r="4" />
+                    <circle cx="12" cy="12" r="10" />
+                </svg>
+            </div>
+            <div class="grid flex-1 text-left text-sm leading-tight">
+                <span class="truncate font-medium"><%= @current_user_username %></span>
+                <span class="truncate text-xs"><%= @current_user_email %></span>
+            </div>
+        </div>
+        <div class="cursor-pointer">
+            <%= link_to destroy_user_session_path, data: {turbo_method: :delete, turbo_confirm: "Are you sure?"}, 
+                class: "flex items-center gap-2 p-2 hover:bg-gray-200 rounded hover:cursor-pointer" do %>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-log-out-icon lucide-log-out">
+                        <path d="m16 17 5-5-5-5" />
+                        <path d="M21 12H9" />
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    </svg>
+            <% end %>
+        </div>
+    </div>
+    
+  </aside>
+</body>
+</html>

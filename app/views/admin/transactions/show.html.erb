@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Transaction Details</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="m-0 h-screen w-screen overflow-hidden">
+  <div class="flex h-screen w-full">
+    <!-- Sidebar -->
+    <div>
+      <%= render 'users/shared/adminSB' %>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 overflow-y-auto p-6 ml-64 bg-white">
+      <div class="max-w-3xl w-full mx-auto p-6 bg-white rounded-xl shadow-md">
+        <h1 class="text-2xl font-semibold mb-4 text-gray-800">Transaction Details</h1>
+
+        <div class="space-y-2 text-gray-700 text-sm">
+          <p><span class="font-semibold text-gray-800">User:</span> <%= @transaction.user.email %></p>
+          <p>
+            <span class="font-semibold text-gray-800">Action:</span>
+            <span class="<%= @transaction.action == 'buy' ? 'text-green-600' : 'text-red-600' %> font-semibold">
+              <%= @transaction.action.capitalize %>
+            </span>
+          </p>
+          <p><span class="font-semibold text-gray-800">Symbol:</span> <%= @transaction.symbol.upcase %></p>
+          <p><span class="font-semibold text-gray-800">Quantity:</span> <%= @transaction.quantity %></p>
+          <p><span class="font-semibold text-gray-800">Stock Price:</span> $<%= number_with_precision(@transaction.stock_price, precision: 2) %></p>
+          <p><span class="font-semibold text-gray-800">Total Price:</span> $<%= number_with_precision(@transaction.total_price, precision: 2) %></p>
+          <p><span class="font-semibold text-gray-800">Created At:</span> <%= @transaction.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+        </div>
+
+        <div class="mt-6">
+          <%= link_to "Back to Transactions",
+            admin_transactions_path,
+            class: "inline-block px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

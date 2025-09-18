@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Trading App Ruby" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <main>
+      <% if notice %>
+        <p id="flash-notice" class="w-full text-center rounded-lg bg-green-100 px-4 py-3 text-green-800 transition-opacity duration-500">
+          <%= notice %>
+        </p>
+      <% end %>
+
+      <% if alert %>
+        <p id="flash-alert" class="w-full text-center rounded-lg bg-red-100 px-4 py-3 text-red-800 transition-opacity duration-500">
+          <%= alert %>
+        </p>
+      <% end %>
+
+      <script>
+        document.addEventListener("turbo:load", function () {
+          setTimeout(() => {
+            const notice = document.getElementById("flash-notice");
+            const alert = document.getElementById("flash-alert");
+
+            if (notice) {
+              notice.classList.add("opacity-0");
+              setTimeout(() => notice.remove(), 500); // remove after fade
+            }
+
+            if (alert) {
+              alert.classList.add("opacity-0");
+              setTimeout(() => alert.remove(), 500);
+            }
+          }, 2000);
+        });
+      </script>
+
+      <%= yield %>
+      
+    </main>
+  </body>
+</html>

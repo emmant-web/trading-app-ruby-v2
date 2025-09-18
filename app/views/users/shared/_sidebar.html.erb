@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desktop Sidebar</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="bg-[#fafafa] w-64 px-6 py-4 flex flex-col items-stretch gap-6 h-screen fixed border-r border-gray-200">
+
+    <!-- Logo -->
+    <div class="flex items-center justify-between w-full">
+      <div class="flex items-center gap-2 text-2xl tracking-tight">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round" class="lucide lucide-trending-up-icon lucide-trending-up w-[24px] h-[24px]">
+          <path d="M16 7h6v6" />
+          <path d="m22 7-8.5 8.5-5-5L2 17" />
+        </svg>
+        <h2 class="inline tracking-tight text-[#222222] font-semibold">TradeNova</h2>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex flex-col gap-2 w-full flex-1">
+      <span class="uppercase text-xs font-medium text-zinc-500 mt-4 tracking-wide">User</span>
+
+      <a href="<%= users_portfolio_path %>"
+        class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm font-medium hover:bg-gray-300 text-[#222222] <%= 'bg-gray-300 font-semibold' if current_page?(users_portfolio_path) %>">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="#222222" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" class="lucide lucide-folder-icon lucide-folder">
+          <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
+        </svg>
+        Portfolio
+      </a>
+
+      <a href="<%= new_users_transaction_path %>"
+        class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm font-medium hover:bg-gray-300 text-[#222222] <%= 'bg-gray-300 font-semibold' if current_page?(new_users_transaction_path) %>">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="#222222" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick">
+          <path d="M9 5v4" />
+          <rect width="4" height="6" x="7" y="9" rx="1" />
+          <path d="M9 15v2" />
+          <path d="M17 3v2" />
+          <rect width="4" height="8" x="15" y="5" rx="1" />
+          <path d="M17 13v3" />
+          <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+        </svg>
+        Buy/Sell Stocks
+      </a>
+
+      <a href="<%= users_transactions_path %>"
+        class="flex items-center gap-3 py-2.5 px-3 rounded-lg text-sm font-medium hover:bg-gray-300 text-[#222222] <%= 'bg-gray-300 font-semibold' if current_page?(users_transactions_path) %>">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+          fill="none" stroke="#222222" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" class="lucide lucide-arrow-right-left-icon lucide-arrow-right-left">
+          <path d="m16 3 4 4-4 4" />
+          <path d="M20 7H4" />
+          <path d="m8 21-4-4 4-4" />
+          <path d="M4 17h16" />
+        </svg>
+        Transactions
+      </a>
+    </nav>
+
+    <!-- BOTTOM SECTION -->
+    <div id="user-info" class="flex justify-between gap-3 mt-auto">
+      <div class="flex justify-center items-center gap-2">
+        <div class="rounded-lg h-8 w-8 bg-blue-600 flex justify-center items-center hover:bg-blue-700">
+          <svg class="w-5 h-5 text-gray-200" xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 20a6 6 0 0 0-12 0" />
+            <circle cx="12" cy="10" r="4" />
+            <circle cx="12" cy="12" r="10" />
+          </svg>
+        </div>
+        <div class="grid flex-1 text-left text-sm leading-tight">
+          <span class="truncate font-medium">
+            <%= @current_user_name.presence || @current_user_username %>
+          </span>
+          <span class="truncate text-xs"><%= @current_user_email %></span>
+        </div>
+      </div>
+
+      <div class="cursor-pointer">
+        <%= link_to destroy_user_session_path,
+              data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+              class: "flex items-center gap-2 p-2 hover:bg-gray-200 rounded hover:cursor-pointer" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-log-out-icon lucide-log-out">
+            <path d="m16 17 5-5-5-5" />
+            <path d="M21 12H9" />
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          </svg>
+        <% end %>
+      </div>
+    </div>
+  </aside>
+
+</body>
+</html>
