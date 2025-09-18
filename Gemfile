@@ -75,5 +75,5 @@ gem 'dotenv-rails', '~> 3.1', '>= 3.1.8', groups: [:development, :test]
 
 # for testing app - rspec
 group :development, :test do
-  gem 'rspec-rails', '~> 8.0.0'
+  gem 'rspec-rails', '~> 8.0.2'
 end
