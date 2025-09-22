@@ -8,13 +8,17 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.create!(
-  first_name: "Jose",
-  last_name: "Puzon",
-  email: "josepuzon@email.com",
-  password: "abc123",
-  password_confirmation: "abc123",
-  is_admin: true,
-  is_pending: false,
-  balance: 0
-)
+admin_email    = ENV.fetch("ADMIN_EMAIL")
+admin_password = ENV.fetch("ADMIN_PASSWORD")
+
+User.find_or_create_by!(email: admin_email) do |user|
+  user.first_name = "Trade"
+  user.last_name  = "Nova"
+  user.password   = admin_password
+  user.password_confirmation = admin_password
+  user.is_admin   = true
+  user.is_pending = false
+  user.balance    = 0
+  user.confirmed_at = Time.current
+end
+
