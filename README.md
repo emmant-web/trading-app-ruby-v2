@@ -33,7 +33,7 @@ It provides authentication, admin approval, portfolio management, and trading fe
 
 - **Backend**: Ruby on Rails  
 - **Frontend**: ERB + Tailwind CSS  
-- **Authentication**: Devise (with admin approval workflow)  
+- **Authentication**: Devise
 - **Pagination**: Kaminari  
 - **Search & Filtering**: Ransack  
 - **Environment Management**: Dotenv  
@@ -68,7 +68,7 @@ First impression of the app with call-to-action.
 
 ### 📜 User Transactions  
 - View personal trading history  
-![User Transactions](app/assets/images/readme-imgs/user/user-buy-sell-stocks-not-searched.png)   
+![User Transactions](app/assets/images/readme-imgs/user/user-transactions.png)   
 
 
 ### 📋 Admin Pages 
