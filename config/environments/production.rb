@@ -102,4 +102,13 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # Devise / Action Mailer host for Render
+  Rails.application.routes.default_url_options[:host] = "trading-app-ruby-v2.onrender.com"
+
+  config.action_mailer.default_url_options = {
+    host: "trading-app-ruby-v2.onrender.com",
+    protocol: "https"
+  }
+
 end
